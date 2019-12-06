@@ -1,5 +1,7 @@
 import random
 from Queue import PriorityQueue
+
+
 def compute_manhattan_distance(d, vertex):
     abs_dist = 0
     for i in range(4):
@@ -13,44 +15,31 @@ def knn_search(knn_graph, d, m, k):
     result = PriorityQueue()
 
     # m searches are needed
-    for i  in range(m):
+    for i in range(m):
         vertices = knn_graph.keys()
         random_vertex_index = random.randint(0, len(vertices)-1)
         random_vertex = vertices[random_vertex_index]
-        distance = compute_manhattan_distance(d, random_vertex)
-        neighborset.put((distance, random_vertex))
+        random_vertex.dist = compute_manhattan_distance(d, random_vertex)
+        neighborset.put((random_vertex.dist, random_vertex))
         tempset = []
         while True:
             closest_neighbor = neighborset.get()
+            if 5:# stop condition:
+                # break
+                # update neighborset
+            neighbors_of_closest_neighbor = knn_graph[closest_neighbor.id]
+            for neighbor in neighbors_of_closest_neighbor:
+                neighbor.dist = compute_manhattan_distance(d, neighbor)
+                visitedset.append(neighbor)
+                neighborset.put((neighbor.distance, neighbor))
+                tempset.append(neighbor)
+            break
+        for data_point in tempset:
+            result.put((data_point.dist, data_point))
+        break
 
-
-
-    closest
-    neighbor =
-    from neighbor set, get
-    vertex
-    closest
-    to
-    q
-    neighbor
-    set.delete(closest
-    neighbor)//check
-    stop
-    condition: if closest neighbor is further than kth element from result break repeat update neighbor set for each neighbor n of closest neighbor do: if
-    n is not present in visited
-    set
-    visited
-    set.append(n)
-    neighbor
-    set.append(n)
-    temp
-    set.append(n)
-    end
-    repeat
-    add
-    vertices
-    from temp set
-    into
-    result
-    end
-    for loop return k closest elements from result
+    # return the k neighbors
+    k_neighbors = []
+    for i in range(k):
+        k_neighbors.append(result.get())
+    return k_neighbors
