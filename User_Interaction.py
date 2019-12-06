@@ -10,7 +10,7 @@ m = input("Number of iterations:")
 k = input("Number of neighbors:")
 i = 1
 while True:
-    print "Input the features of your data point"
+    print "Input the features of your data point-"
     petal_length = input("Petal length:")
     petal_width = input("Petal Width:")
     sepal_length = input("Sepal Length:")
