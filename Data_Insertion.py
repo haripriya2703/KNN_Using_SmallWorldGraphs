@@ -3,6 +3,7 @@ from KNN_Search import knn_search
 
 def knn_data_insertion(knn_graph, d, m, k):
     knn_graph[d.id] = []
+    # neighbor_ids = []
     # if there are already k+1 data points in the graph, k neighbors are found by invoking knn_search
     if len(knn_graph) > k+1:
         neighbors = knn_search(knn_graph, d, m, k)
@@ -12,15 +13,19 @@ def knn_data_insertion(knn_graph, d, m, k):
 
         # Add edges between vertices and data point
         for neighbor in neighbors:
-            knn_graph[neighbor.id].append(d.id)
-            knn_graph[d.id].append(neighbor.id)
+            if neighbor.id != d.id:
+                knn_graph[neighbor.id].append(d.id)
+                knn_graph[d.id].append(neighbor.id)
     # if there are less than k+1 data points, edges are added between all vertices and the data point
     else:
         # Add edges between vertices and data point
-        for neighbor in knn_graph:
-            knn_graph[neighbor.id].append(d.id)
-            knn_graph[d.id].append(neighbor.id)
+        if len(knn_graph) > 1:
+            for neighbor in knn_graph:
+                if neighbor != d.id:
+                    knn_graph[neighbor].append(d.id)
+                    knn_graph[d.id].append(neighbor)
 
+    print "list", dict(knn_graph)
     return knn_graph
 
 

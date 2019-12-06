@@ -1,6 +1,5 @@
 class DataPoint(object):
-    def __init__(self, petal_length=-1, petal_width=-1, sepal_length=-1, sepal_width=-1, id=None, label=None,
-                 distance=None):
+    def __init__(self, petal_length=-1, petal_width=-1, sepal_length=-1, sepal_width=-1, id=None, distance=None):
         # self.petal_length = petal_length
         # self.petal_width = petal_width
         # self.sepal_length = sepal_length
@@ -8,6 +7,5 @@ class DataPoint(object):
         # or
         self.id = id
         self.features = [petal_length, petal_width, sepal_length, sepal_width]
-        self.label = label
         self.dist = distance
 

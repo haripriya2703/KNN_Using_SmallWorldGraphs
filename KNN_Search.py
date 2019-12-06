@@ -18,9 +18,8 @@ def knn_search(knn_graph, d, m, k):
 
     # m searches are needed
     for i in range(m):
-        vertices = knn_graph.keys()
-        random_vertex_index = random.randint(0, len(vertices)-1)
-        random_vertex = vertices[random_vertex_index]
+        random_vertex_index = random.randint(0, len(knn_graph)-1)
+        random_vertex = knn_graph[random_vertex_index]
         random_vertex.dist = compute_manhattan_distance(d, random_vertex)
         neighbor_set.put((random_vertex.dist, random_vertex))
         temp_set = []
