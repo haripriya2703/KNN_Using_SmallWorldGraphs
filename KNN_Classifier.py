@@ -4,8 +4,10 @@ from KNN_Search import knn_search
 def knn_classifier(knn_graph, d, m, k):
     species_labels = ['setosa', 'virginica', 'versicolor']
     labels_count = [0, 0, 0]
+    # if data point is a vertex in the graph, get its neighbors from the adjacency list representation of the graph
     if d.id in knn_graph:
         neighbors = knn_graph[d.id]
+    # if data point is not a vertex, invoke knn_search to get neighbors
     else:
         neighbors = knn_search(knn_graph, d, m, k)
     for neighbor in neighbors:
@@ -13,6 +15,6 @@ def knn_classifier(knn_graph, d, m, k):
             if neighbor.label == species_labels[i]:
                 labels_count[i] += 1
                 break
-    d.label = species_labels[labels_count.index(max(labels_count))]
-    return d.label
+    label = species_labels[labels_count.index(max(labels_count))]
+    return label
 
