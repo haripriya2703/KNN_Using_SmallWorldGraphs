@@ -10,10 +10,7 @@ def knn_classifier(knn_graph, d, m, k):
         neighbors = knn_graph[d]
     # if data point is not a vertex, invoke knn_search to get neighbors
     else:
-        neighbor_objects = knn_search(knn_graph, d, m, k)
-        neighbors = []
-        for neighbor in neighbor_objects:
-            neighbors.append(neighbor.id)
+        neighbors = knn_search(knn_graph, d, m, k)
     for neighbor in neighbors:
         for i in range(3):
             if neighbor.label == species_labels[i]:
