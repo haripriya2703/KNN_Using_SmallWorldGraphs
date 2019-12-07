@@ -88,7 +88,8 @@ def knn_search(knn_graph, d, m, k):
                 # print neighbor
                 neighbor.dist = compute_euclidean_distance(d, neighbor)
                 # visited_set.append(neighbor)
-                non_visited_set.remove(neighbor)
+                if neighbor in non_visited_set:
+                    non_visited_set.remove(neighbor)
                 neighbor_set.put((neighbor.dist, neighbor))
                 temp_set.append(neighbor)
             break
