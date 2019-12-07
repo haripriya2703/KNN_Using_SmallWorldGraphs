@@ -4,6 +4,7 @@ from Data_Point import DataPoint
 from collections import defaultdict
 import csv
 import random
+import numpy as np
 
 knn_graph = defaultdict(list)
 labels = dict()
@@ -62,4 +63,28 @@ with open('IRIS.csv') as csv_file:
 
         confusion_matrix[original_label_index][predicted_label_index] += 1
 
+
     print confusion_matrix
+
+    ###### PJ ########
+
+    confusion_matrix = np.asarray(confusion_matrix)
+    matrix_sum = np.sum(confusion_matrix)  # Check
+    print(matrix_sum)
+
+    diagonal_sum = np.sum(np.diagonal(confusion_matrix))   # TP + TN
+    print(diagonal_sum)
+
+    accuracy = diagonal_sum/matrix_sum
+    print(accuracy)
+
+    # Store class wise     @twish
+    for i in range(3):
+
+        recall = confusion_matrix[i][i]/np.sum(confusion_matrix[i],axis=1)
+        precision = confusion_matrix[i][i]/np.sum(confusion_matrix[i],axis=0)
+        f_measure = (2*recall*precision)/(recall+precision)
+        support = np.sum(confusion_matrix[i],axis=1)
+
+
+
