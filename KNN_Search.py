@@ -25,16 +25,16 @@ def knn_search(knn_graph, d, m, k):
     """
 
     neighbor_set = PriorityQueue()
-    visited_set = []
+    non_visited_set = set(knn_graph) - {d}
     result = PriorityQueue()
 
     # m searches are needed
     for i in range(m):
-        random_vertex_index = random.randint(0, len(knn_graph)-1)
-        random_vertex = list(knn_graph)[random_vertex_index]
+        random_vertex_index = random.randint(0, len(non_visited_set)-1)
+        random_vertex = list(non_visited_set)[random_vertex_index]
         print "search number: ", m, " random vertex chosen", random_vertex.id
         # print "knn_graph size ", list(knn_graph)
-        
+
         random_vertex.dist = compute_manhattan_distance(d, random_vertex)
         neighbor_set.put((random_vertex.dist, random_vertex))
         temp_set = []
@@ -73,7 +73,8 @@ def knn_search(knn_graph, d, m, k):
             for neighbor in neighbors_of_closest_neighbor:
                 # print neighbor
                 neighbor.dist = compute_manhattan_distance(d, neighbor)
-                visited_set.append(neighbor)
+                # visited_set.append(neighbor)
+                non_visited_set.remove(neighbor)
                 neighbor_set.put((neighbor.dist, neighbor))
                 temp_set.append(neighbor)
             break
@@ -82,9 +83,12 @@ def knn_search(knn_graph, d, m, k):
             result.put((data_point.dist, data_point))
         break
 
+    print result.qsize()
+
     # return the k neighbors of query point
     k_neighbors = []
     for i in range(k):
         neighbor = result.get()
         k_neighbors.append(neighbor[1])
+    print len(k_neighbors)
     return k_neighbors

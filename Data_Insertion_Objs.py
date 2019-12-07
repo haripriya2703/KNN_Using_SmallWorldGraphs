@@ -21,6 +21,7 @@ def knn_data_insertion(knn_graph, d, m, k):
     # if there are less than k+1 data points, edges are added between all vertices and the data point
     else:
         # Add edges between vertices and data point
+        print "Inserting the data point number: ", len(knn_graph)+1
         if len(knn_graph) > 1:
             for neighbor in knn_graph:
                 if neighbor != d:
