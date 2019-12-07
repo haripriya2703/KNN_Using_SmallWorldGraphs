@@ -9,8 +9,8 @@ labels = dict()
 m = input("Number of iterations:")
 k = input("Number of neighbors:")
 
-with open('IRIS.csv') as csvfile:
-    readCSV = csv.reader(csvfile, delimiter=',')
+with open('IRIS.csv') as csv_file:
+    readCSV = csv.reader(csv_file, delimiter=',')
     for row in readCSV:
         petal_length = row[0]
         petal_width = row[1]
@@ -20,10 +20,3 @@ with open('IRIS.csv') as csvfile:
         data_point.id = len(knn_graph) + 1
         data_point.label = row[4]
         knn_graph = knn_data_insertion(knn_graph, data_point, m, k)
-
-
-
-
-
-
-
