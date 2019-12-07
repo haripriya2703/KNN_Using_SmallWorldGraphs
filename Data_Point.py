@@ -10,4 +10,3 @@ class DataPoint(object):
         self.features = [petal_length, petal_width, sepal_length, sepal_width]
         self.dist = distance
         self.label = label
-
