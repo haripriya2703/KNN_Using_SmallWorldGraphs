@@ -56,6 +56,7 @@ def knn_search(knn_graph, d, m, k):
                 visited_set.append(neighbor)
                 neighbor_set.put((neighbor.dist, neighbor))
                 temp_set.append(neighbor)
+            break
 
         for data_point in temp_set:
             result.put((data_point.dist, data_point))
@@ -64,5 +65,6 @@ def knn_search(knn_graph, d, m, k):
     # return the k neighbors of query point
     k_neighbors = []
     for i in range(k):
-        k_neighbors.append(result.get())
+        neighbor = result.get()
+        k_neighbors.append(neighbor[1])
     return k_neighbors
