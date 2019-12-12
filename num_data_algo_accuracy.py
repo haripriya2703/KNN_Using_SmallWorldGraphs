@@ -29,9 +29,8 @@ m = input("Number of iterations:")
 k = input("Number of neighbors:")
 
 for data_point in knn_graph.keys():
-    print data_point
     neighbors = knn_search(knn_graph, distance_metric, data_point, m, k)
-    neighbors = [x.id for x in neighbors]
+    neighbors_id = [x.id for x in neighbors]
 
     # actual k neighbors
     actual_neighbors = []
@@ -44,17 +43,41 @@ for data_point in knn_graph.keys():
 
         if point.id != data_point.id:
             if distance_metric == "euclidean":
-                actual_neighbors.append((point.id, compute_euclidean_distance(data_point, point)))
+                actual_neighbors.append((point, compute_euclidean_distance(data_point, point)))
             elif distance_metric == "manhattan":
-                actual_neighbors.append((point.id, compute_manhattan_distance(data_point, point)))
+                actual_neighbors.append((point, compute_manhattan_distance(data_point, point)))
 
     actual_neighbors.sort(key=lambda x: x[1])
     k_actual_neighbors = actual_neighbors[:k]
+    # print k_actual_neighbors
     k_actual_neighbors = [x[0] for x in k_actual_neighbors]
+    # print k_actual_neighbors
+    k_actual_neighbors_id = [x.id for x in k_actual_neighbors]
+    # print k_actual_neighbors_id
     # print actual_neighbors
+    print "----------------"
     print "Test point: ", data_point.id
-    print "actual neighbors: ", k_actual_neighbors
-    print "predicted neighbors: ", neighbors
+    print "actual neighbors: ", k_actual_neighbors_id
+    print "predicted neighbors: ", neighbors_id
 
-    intersection = set(k_actual_neighbors).intersection(neighbors)
+    intersection = set(k_actual_neighbors_id).intersection(neighbors_id)
     print "Out of {} neighbors {} neighbors match".format(k, len(intersection))
+    accuracy = float(len(intersection))*100 / k
+    print "Percent accuracy in terms of number of neighbors: {}%".format(accuracy)
+
+    actual_mean_distance = 0
+    predicted_mean_distance = 0
+    for a, p in zip(k_actual_neighbors, neighbors):
+        if distance_metric == "euclidean":
+            actual_mean_distance += compute_euclidean_distance(data_point, a)
+            predicted_mean_distance += compute_euclidean_distance(data_point, p)
+        elif distance_metric == "manhattan":
+            actual_mean_distance += compute_manhattan_distance(data_point, a)
+            predicted_mean_distance += compute_manhattan_distance(data_point, p)
+
+    actual_mean_distance = actual_mean_distance/k
+    predicted_mean_distance = predicted_mean_distance/k
+    print "Actual mean distance of K neighbors from Query point: "
+    print actual_mean_distance
+    print "Predicted mean distance of K neighbors from Query point: "
+    print predicted_mean_distance
