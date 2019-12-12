@@ -62,5 +62,5 @@ for data_point in knn_graph.keys():
     print actual_neighbors
     print k_actual_neighbors, neighbors
 
-    intersection = set(actual_neighbors).intersection(neighbors)
+    intersection = set(k_actual_neighbors).intersection(neighbors)
     print len(intersection)
