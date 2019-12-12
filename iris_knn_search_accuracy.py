@@ -3,10 +3,10 @@ from KNN_Search import knn_search
 from KNN_Search import compute_euclidean_distance
 from Data_Point import DataPoint
 from collections import defaultdict
-from Queue import PriorityQueue
+
 import csv
 import random
-import numpy as np
+
 
 knn_graph = defaultdict(list)
 labels = dict()

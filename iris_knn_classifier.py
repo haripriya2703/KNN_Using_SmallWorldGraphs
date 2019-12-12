@@ -20,14 +20,17 @@ with open('IRIS.csv') as csv_file:
     train_data_size = 120
 
     for i, row in enumerate(csv_list):
-        print "Data point number: ", i
+        # print "Data point number: ", i
         if i == train_data_size:
             break
         petal_length = row[0]
         petal_width = row[1]
         sepal_length = row[2]
         sepal_width = row[3]
-        data_point = DataPoint(petal_length, petal_width, sepal_length, sepal_width)
+        features = [petal_length, petal_width, sepal_length, sepal_width]
+
+        # create a new data point
+        data_point = DataPoint(features=features)
         data_point.id = i + 1
         data_point.label = row[4]
 
@@ -40,7 +43,7 @@ with open('IRIS.csv') as csv_file:
         for neighbor in neighbor_obj:
             neighbors.append(neighbor.id)
 
-        print key.id, neighbors
+        # print key.id, neighbors
 
     species_labels = ['Iris-setosa', 'Iris-virginica', 'Iris-versicolor']
     confusion_matrix = [[0 for i in range(3)] for j in range(3)]
@@ -51,40 +54,31 @@ with open('IRIS.csv') as csv_file:
         petal_width = row[1]
         sepal_length = row[2]
         sepal_width = row[3]
-        data_point = DataPoint(petal_length, petal_width, sepal_length, sepal_width)
-        data_point = DataPoint(petal_length, petal_width, sepal_length, sepal_width)
+        features = [petal_length, petal_width, sepal_length, sepal_width]
+        data_point = DataPoint(features=features)
         data_point.id = i + 1
         data_point.label = row[4]
 
         original_label = data_point.label
         original_label_index = species_labels.index(original_label)
         predicted_label_index, predicted_label = knn_classifier(knn_graph, data_point, m, k)
-        print i, original_label, predicted_label
+        # print i, original_label, predicted_label
 
         confusion_matrix[original_label_index][predicted_label_index] += 1
 
-
+    print "----------------"
+    print "Confusion Matrix: "
     print confusion_matrix
 
-    ###### PJ ########
-
     confusion_matrix = np.asarray(confusion_matrix)
-    matrix_sum = np.sum(confusion_matrix)  # Check
-    print(matrix_sum)
+    matrix_sum = np.sum(confusion_matrix)
 
-    diagonal_sum = np.sum(np.diagonal(confusion_matrix))   # TP + TN
+    print "----------------"
+    diagonal_sum = np.sum(np.diagonal(confusion_matrix))
+    print "True Predictions: Number of correctly classified flowers"
     print(diagonal_sum)
 
-    accuracy = diagonal_sum/matrix_sum
-    print(accuracy)
-
-    # Store class wise     @twish
-    for i in range(3):
-
-        recall = confusion_matrix[i][i]/np.sum(confusion_matrix[i],axis=1)
-        precision = confusion_matrix[i][i]/np.sum(confusion_matrix[i],axis=0)
-        f_measure = (2*recall*precision)/(recall+precision)
-        support = np.sum(confusion_matrix[i],axis=1)
-
-
-
+    print "----------------"
+    accuracy = diagonal_sum * 100.0 / matrix_sum
+    print "Accuracy: "
+    print accuracy, "%"
