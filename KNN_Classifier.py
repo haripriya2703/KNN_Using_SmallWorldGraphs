@@ -1,7 +1,15 @@
 from KNN_Search import knn_search
 
 
-def knn_classifier(knn_graph, d, m, k):
+def knn_classifier(knn_graph, distance_metric, d, m, k):
+    """
+    :param knn_graph: existing graph
+    :param distance_metric: metric using which the nearest neighbors should be determined
+    :param d: new data point
+    :param m: number of searches to be performed
+    :param k: number of neighbors to be searched for
+    :return: predicted label for the data point based on k-nearest neighbors
+    """
     species_labels = ['Iris-setosa', 'Iris-virginica', 'Iris-versicolor']
     labels_count = [0, 0, 0]
 
@@ -10,7 +18,7 @@ def knn_classifier(knn_graph, d, m, k):
         return knn_graph[d].label
 
     # if data point is not a vertex, invoke knn_search to get neighbors
-    neighbors = knn_search(knn_graph, d, m, k)
+    neighbors = knn_search(knn_graph, distance_metric, d, m, k)
 
     for neighbor in neighbors:
         for i in range(3):
